@@ -14,7 +14,7 @@ $server->wsdl->addComplexType('tipoDocumento',
 );
 
 $server->register('editarTipoDocumento',
-                  array('descripcionTipoDocumento' => 'xsd:string', 'estadoRegistro' => 'xsd:string', 'usuario' => 'xsd:string'),
+                  array('codTipoDocumento' => 'xsd:string','descripcionTipoDocumento' => 'xsd:string', 'estadoRegistro' => 'xsd:string', 'usuario' => 'xsd:string'),
                   array('return' => 'tns:tipoDocumento'),
                   'urn:editarTipoDocumento',
                   'urn:editarTipoDocumento#tipoDocumento',

@@ -38,24 +38,24 @@ class TipoDocumento {
     }
 
     public function nuevoTipoDocumento($descripcion,
-                                        $usuario) {
+                                       $usuario) {
         $respuesta = "";
-        
+
         $sql = "insert into tipo_documento(descripcionTipoDocumento,estadoRegistro,usuarioInsercion,fechaInsercion) " .
-                                "values(descripcionTipoDocumento = '$descripcion', ".
-                                "estadoRegistro='S', ".
-                                "usuarioInsercion='$usuario', ".
-                                "fechaInsercion = CURDATE());";
+                                "values('$descripcion', " .
+                                "'S', " .
+                                "'$usuario', " .
+                                "CURDATE());";
 
         $resultado = $this->conexion->query($sql);
 
         if (!$resultado) {
             $respuesta = "No se Realizó Inserción de Registro";
-        }else{
+        }else {
             $respuesta = "000";
         }
 
-        return $resultado;
+        return $respuesta;
     }
 
     public function editarTipoDocumento($codTipoDocumento,
@@ -63,11 +63,11 @@ class TipoDocumento {
                                         $estado,
                                         $usuario) {
         $respuesta = "";
-        
+
         $sql = "update tipo_documento " .
-                                "set descripcionTipoDocumento = $descripcion, " .
-                                "estadoRegistro = $estado, " .
-                                "usuarioModificacion = $usuario, " .
+                                "set descripcionTipoDocumento = '$descripcion', " .
+                                "estadoRegistro = '$estado', " .
+                                "usuarioModificacion = '$usuario', " .
                                 "fechaModificacion = CURDATE() " .
                                 "where codTipoDocumento = '$codTipoDocumento';";
 
@@ -75,10 +75,10 @@ class TipoDocumento {
 
         if (!$resultado) {
             $respuesta = "No se Realizó Actualización de Registro";
-        }else{
+        }else {
             $respuesta = "000";
         }
 
-        return $resultado;
+        return $respuesta;
     }
 }
