@@ -1,9 +1,10 @@
 <?php
-include_once('lib/nusoap.php');
 
+include_once('lib/nusoap.php');
+include_once('inc/ConectarBD.php');
 $server = new soap_server;
-$server->configureWSDL('obtenerTipoDocumento',
-                       'urn:obtenerTipoDocumento');
+$server->configureWSDL('insertarTipoDocumento',
+                       'urn:insertarTipoDocumento');
 $server->wsdl->addComplexType('tipoDocumento',
                               'complexType',
                               'struct',
@@ -15,30 +16,26 @@ $server->wsdl->addComplexType('tipoDocumento',
                         )
 );
 
-$server->register('obtenerTipoDocumento',
+$server->register('insertarTipoDocumento',
                   array('descripcionTipoDocumento' => 'xsd:string', 'estadoRegistro' => 'xsd:string', 'cantReg' => 'xsd:string', 'limite' => 'xsd:string'),
                   array('return' => 'tns:tipoDocumento'),
-                  'urn:obtenerTipoDocumento',
-                  'urn:obtenerTipoDocumento#tipoDocumento',
+                  'urn:insertarTipoDocumento',
+                  'urn:insertarTipoDocumento#tipoDocumento',
                   'rpc',
                   'encoded',
                   'Este método devuelve un tipoDocumento.');
 
-function obtenerTipoDocumento($descripcion,
-                              $estado,
-                              $cantReg,
-                              $limite) {
+function insertarTipoDocumento($descripcion,
+                              $usuario) {
     try {
         include_once('controller/TipoDocumentoController.php');
-        
+
         $tipoDocumentoController = new TipoDocumentoController();
 
-        $arrayRespuesta = $tipoDocumentoController->listaTipoDocumento($descripcion,
-          $estado,
-          $cantReg,
-          $limite);
+        $arrayRespuesta = $tipoDocumentoController->nuevoTipoDocumento($descripcion,
+                                                                       $usuario);
 
-          return $arrayRespuesta; 
+        return $arrayRespuesta;
     }catch (Exception $e) {
         echo 'Excepción capturada: ', $e->getMessage(), "\n";
     }

@@ -21,28 +21,17 @@ $server->register('obtenerTipoDocumento',
                   'Este método devuelve un tipoDocumento.');
 
 function obtenerTipoDocumento($codTipoDocumento){
-  $arrayTipoDocumento = array();
+ try {
+        include_once('controller/TipoDocumentoController.php');
+        
+        $tipoDocumentoController = new TipoDocumentoController();
 
-  $conecta = new ConectarBD();
-  $conexion = $conecta -> conectar();
+        $arrayRespuesta = $tipoDocumentoController->obtenerRegistroTipoDocumento($codTipoDocumento);
 
-  $sql = "select codTipoDocumento, ".
-         "descripcionTipoDocumento, ".
-         "estadoRegistro ".
-         "FROM tipo_documento ".
-         "where codTipoDocumento = '".$codTipoDocumento."';";
-
-  $resultado = $conexion->query($sql);
-
-    while ($row = $resultado->fetch_array()) {
-      $arrayTipoDocumento[] = $row;
+          return $arrayRespuesta; 
+    }catch (Exception $e) {
+        echo 'Excepción capturada: ', $e->getMessage(), "\n";
     }
-
-
-
-    return array("codTipoDocumento" => $arrayTipoDocumento[0][0],"descripcionTipoDocumento" => $arrayTipoDocumento[0][1],"estadoRegistro" => $arrayTipoDocumento[0][2]);
-
-
 }
 
 $HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : '';
